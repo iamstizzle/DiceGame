@@ -28,11 +28,6 @@ dieval = {
     }
 
 #Test Dice rolls for dict values
-#print ("TEST DICE START: ", dieval["civi1"][d6()-1], dieval["mili7"][d6()-1], dieval["pro12"][d6()-1])
-#print (dieval[1][d6()-1], dieval[12][d6()-1], dieval[4][d6()-1])
-#print (dieval[1][d6()-1], dieval[12][d6()-1], dieval[4][d6()-1])
-#print (dieval[1][d6()-1], dieval[12][d6()-1], dieval[4][d6()-1])
-#print (dieval[1][d6()-1], dieval[12][d6()-1], dieval[4][d6()-1])
 #####------------------------------------------------------------------
 
 
@@ -90,7 +85,10 @@ class dicerules(object):
         #Draw from bucket until you have 3
         #debug#print ("hand length ", len(self.hand))
         while len(self.hand) < 3:
-        ## grab 1 random die from bucket, add it to hand, and remove from bucket
+            ##prevent draw error from empty bucket
+            if len(self.bucket) < 1:
+                self.bucket = self.useddice
+            ## grab 1 random die from bucket, add it to hand, and remove from bucket
             getdie = randint(0,len(self.bucket)-1)
             """ migh need an index of 0 for randint start """
             self.hand.append(self.bucket[getdie])
@@ -157,13 +155,11 @@ class dicerules(object):
 
             ###############  PLAY START ################
 
-    ##Player setup
-
+    ##Player setup##
 
 player = dicerules()
 player2 = dicerules()
 
-## if  2p chosen,   player2 = dicerules()
 
 
 ###setup for multiplayer loop checks..
@@ -173,8 +169,7 @@ while player.totalbrains < 13 and player2.totalbrains < 13:
     ### PLAYER 1  ###
     print ("PLAYER 1 START:\nDrawing DIE ...er, dice... \n")
     player.fillhand()
-    print ("you drew out: ", player.hand, "\nRemaining to draw from bucket ", player.bucket)
-                                                                                 
+    print ("you drew out: ", player.hand, "\nRemaining to draw from bucket ", player.bucket, "\n\n\n")                                                                     
 
     player.handroll()
     player.checkroll()
@@ -201,14 +196,14 @@ while player.totalbrains < 13 and player2.totalbrains < 13:
                 player.reset()        
 
     player.reset()
-    print ("brains put into the brain bank ", player.totalbrains, "\nbrains in hand should be zero: ", player.brains) 
-    player.reset()
+    print ("brains in the brain bank ", player.totalbrains, "\n\n--------------------------------\n\n") 
+    player.reset() #these resets are important to avoid comingling values for future turns.
 
     ### End player 1
-
+    time.sleep(2)
 
     ###start player 2
-    scorepoints = False
+    scorepoints = False   #need so you can enter the dice reroll while loop
     print ("Player2 START:\nDrawing DIE ...er, dice... \n")
     time.sleep(1)
     player2.fillhand()
@@ -240,18 +235,14 @@ while player.totalbrains < 13 and player2.totalbrains < 13:
                 player2.reset()        
 
     player2.reset()
-    print ("brains put into the brain bank ", player2.totalbrains, "\nbrains in hand should be zero: ", player2.brains) 
-
-
-    if player2.totalbrains > 5:
-        print ("temp WIN")
-    elif player2.totalbrains ==0:
-        print ("blasted! turn over")
+    print ("brains in the brain bank ", player2.totalbrains) 
+    print ("blasted! turn over")
 
     player2.reset()
 
     time.sleep(2)
-    print ("\n\n\nEnd of turn BLAH, here are the scores:\nPlayer 1 has ", player.totalbrains, "\nand Player 2 has " , player2.totalbrains)
+    print ("\n\n\nEnd of turn BLAH, here are the scores:\nPlayer 1 has ", player.totalbrains, "\nand Player 2 has " , player2.totalbrains, "\n\n--------------------------------\n\n")
+    time.sleep(3)
 
 player.reset()
 player2.reset()
@@ -262,16 +253,18 @@ if player.totalbrains > player2.totalbrains:
     print("Player 1 wins!")
 else:
     print ("player 2 wins")
+
+### I  dont yet account for ties. ### needs fixing.
           
 
 ######dietest########
 
 
-print ("exiting"),
+print ("exiting");
 time.sleep(1)
-print (".")
+print (".");
 time.sleep(1)
-print (".")
+print (".");
 time.sleep(1)
 print (".")
 
