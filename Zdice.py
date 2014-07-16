@@ -136,23 +136,32 @@ class dicerules(object):
 
 #----------------------------------------------------------------------
 
-#playercount = int(input("--Zombie Dice--\n\nHow many players: " ))
-#print ("you've selected ", playercount)
-playercount = 3
+playercount = int(input("--Zombie Dice--\n\nHow many players: " ))
+print ("you've selected ", playercount)
+
             ###############  PLAY START ################
 
     ##Player setup##
 
-player = dicerules("player1")
-player2 = dicerules("player2")
-player3 = dicerules("player3")
+player1 = dicerules("player 1")
+player2 = dicerules("player 2")
+player3 = dicerules("player 3")
+player4 = dicerules("player 4")
 ##development mode##
 computerai = dicerules("AI")
 
-playerarray = [player,computerai]
+if playercount == 1:
+    playerarray = [player1,computerai]
+elif playercount == 2:
+    playerarray = [player1,player2]
+elif playercount ==3:
+    playerarray = [player1,player2, player3]
+elif playercount ==4:
+    playerarray = [player1,player2, player3, player4]
+    
 
 
-while player.totalbrains < 13 and player2.totalbrains < 13 and player3.totalbrains < 13 and computerai.totalbrains < 13:
+while player1.totalbrains < 13 and player2.totalbrains < 13 and player3.totalbrains < 13 and computerai.totalbrains < 13 and player4.totalbrains < 13:
 
     for each in playerarray:
         
@@ -161,7 +170,7 @@ while player.totalbrains < 13 and player2.totalbrains < 13 and player3.totalbrai
         ### PLAYER 1  ###
         print ("\n", each.name,"START:\nDrawing DIE ...er, dice... \n")
         each.fillhand()
-        #print ("you drew out: ", player.hand, "\nRemaining to draw from bucket ", player.bucket, "\n\n\n")                                                                     
+        #print ("you drew out: ", each.hand, "\nRemaining to draw from bucket ", player.bucket, "\n\n\n")                                                                     
 
         each.handroll()
         each.checkroll()
@@ -176,9 +185,7 @@ while player.totalbrains < 13 and player2.totalbrains < 13 and player3.totalbrai
                 if each.name == "AI":
                     if each.brains ==0:
                         question = str("y")
-                    elif player.totalbrains > 12 and computerai.totalbrains < 8 and computerai.brains < 7:
-                        question = str("y")
-                    elif player.totalbrains > 12 and computerai.totalbrains < 11 and computerai.brains < 4:
+                    elif player1.totalbrains > 12 and (computerai.totalbrains + computerai.brains) < player1.totalbrains:
                         question = str("y")
                     elif computerai.brains <7 and computerai.shotguncount == 0:
                         question = str("y")
@@ -198,6 +205,7 @@ while player.totalbrains < 13 and player2.totalbrains < 13 and player3.totalbrai
                             question = str("n")
                     else:
                         question = str("n")
+                ## else you are human input prompt.
                 else:
                     question = str(input("reroll?: " ))
                     
@@ -244,7 +252,7 @@ while player.totalbrains < 13 and player2.totalbrains < 13 and player3.totalbrai
 
     ### For loop end
 
-player.reset()
+player1.reset()
 player2.reset()
 player3.reset()
 computerai.reset()
@@ -256,24 +264,24 @@ computerai.reset()
 
 ###messed up for computerai as player 2""
 if playercount == 1:
-    print ("\n\n\nVICTORY!!!:\nPlayer 1 has ", player.totalbrains, "\nand the Computer has " , computerai.totalbrains)
-    if player.totalbrains > computerai.totalbrains:
+    print ("\n\n\nVICTORY!!!:\nPlayer 1 has ", player1.totalbrains, "\nand the Computer has " , computerai.totalbrains)
+    if player1.totalbrains > computerai.totalbrains:
         print("Player 1 wins!")
     else:
         print ("Computer wins")
 
 elif playercount == 2:
-    print ("\n\n\nVICTORY!!!:\nPlayer 1 has ", player.totalbrains, "\nand Player 2 has " , computerai.totalbrains)
-    if player.totalbrains > computerai.totalbrains:
+    print ("\n\n\nVICTORY!!!:\nPlayer 1 has ", player1.totalbrains, "\nand Player 2 has " , computerai.totalbrains)
+    if player1.totalbrains > computerai.totalbrains:
         print("Player 1 wins!")
     else:
         print ("Computer wins")
 
 elif playercount == 3:
-    print ("\n\n\nVICTORY!!!:\nPlayer 1 has ", player.totalbrains, "\nand Player 2 has " , player2.totalbrains, "\nand Player 3 has " , player3.totalbrains)
-    if player.totalbrains > player2.totalbrains and player.totalbrains > player3.totalbrains:
+    print ("\n\n\nVICTORY!!!:\nPlayer 1 has ", player1.totalbrains, "\nand Player 2 has " , player2.totalbrains, "\nand Player 3 has " , player3.totalbrains)
+    if player1.totalbrains > player2.totalbrains and player1.totalbrains > player3.totalbrains:
         print("Player 1 wins!")
-    elif player.totalbrains < player2.totalbrains and player2.totalbrains > player3.totalbrains:
+    elif player1.totalbrains < player2.totalbrains and player2.totalbrains > player3.totalbrains:
         print ("Player 2 wins")
     else: print ("Player 3 wins")
 
