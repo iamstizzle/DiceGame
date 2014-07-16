@@ -83,25 +83,20 @@ class dicerules(object):
 
     def fillhand(self):
         #Draw from bucket until you have 3
-        #debug#print ("hand length ", len(self.hand))
         while len(self.hand) < 3:
             ##prevent draw error from empty bucket
             if len(self.bucket) < 1:
                 self.bucket = self.useddice
+                self.useddice = []
             ## grab 1 random die from bucket, add it to hand, and remove from bucket
             getdie = randint(0,len(self.bucket)-1)
             """ migh need an index of 0 for randint start """
             self.hand.append(self.bucket[getdie])
             self.bucket.remove(self.bucket[getdie])
-            ########print ("\n\n TEST HAND TEST hand", self.hand, " diebucket", self.bucket)
-            ##WARNING  need to add code to reset bucket but not hand
-            ## If the bucket contains fewer dice than needs to be drawn.
             
     def handroll(self):
         self.rolled = []
         if len(self.hand) == 3:
-
-            ## maybe append in tuples of roll value and dice value @#@#@#@#@#!@#!@#!@#!@#!@#
             self.rolled = [[dieval[self.hand[0]][d6()-1],self.hand[0]], [dieval[self.hand[1]][d6()-1],self.hand[1]], [dieval[self.hand[2]][d6()-1],self.hand[2]] ]
             #debug#print ("#####", self.rolled, "\nindex0", self.rolled[0], "\nindex0", self.rolled[0][0], "print hand", self.hand, "\nindex0 diceval1: ", self.rolled[0][1] )
             
@@ -132,23 +127,13 @@ class dicerules(object):
                 self.gotshot(2)
                 self.useddice.append(each[1])
                 self.hand.remove(each[1])
-                ### may need a better way to know what is where on the roll so rerolls stay in hand."""
                
-                
- ## delete self.hand[self.hand[0]]
-                ## might remove unwanted element from an array
-                # may have to rename values in array to string for each dice from self.bucket. instead of 1,2,3  to "civ","militia", "army"
         
 #----------------------------------------------------------------------------------
             
 ################################### SETUP END ###########################################################
 
 #----------------------------------------------------------------------
-
-### define die role rules/values/turn end condition###
-""" setup for multiple players  will go here """
-""" Checks for victory conditions will go here"""
-    #######################################################
 
 
 
@@ -169,7 +154,7 @@ while player.totalbrains < 13 and player2.totalbrains < 13:
     ### PLAYER 1  ###
     print ("PLAYER 1 START:\nDrawing DIE ...er, dice... \n")
     player.fillhand()
-    print ("you drew out: ", player.hand, "\nRemaining to draw from bucket ", player.bucket, "\n\n\n")                                                                     
+    #print ("you drew out: ", player.hand, "\nRemaining to draw from bucket ", player.bucket, "\n\n\n")                                                                     
 
     player.handroll()
     player.checkroll()
@@ -181,8 +166,8 @@ while player.totalbrains < 13 and player2.totalbrains < 13:
         scorepoints = False
         if player.shotguncount < 3:
             question = str(input("reroll?: " ))
-            print("rerolling")
             if question =="y":
+                print("rerolling")
                 player.fillhand()
                 print ("you drew out: ", player.hand, "\nRemaining to draw from bucket ", player.bucket)
                 player.handroll()
@@ -207,7 +192,7 @@ while player.totalbrains < 13 and player2.totalbrains < 13:
     print ("Player2 START:\nDrawing DIE ...er, dice... \n")
     time.sleep(1)
     player2.fillhand()
-    print ("P2 you drew out: ", player2.hand, "\nRemaining to draw from bucket ", player2.bucket)
+    #print ("P2 you drew out: ", player2.hand, "\nRemaining to draw from bucket ", player2.bucket)
                                                                                  
 
     player2.handroll()
@@ -220,8 +205,8 @@ while player.totalbrains < 13 and player2.totalbrains < 13:
         scorepoints = False
         if player2.shotguncount < 3:
             question = str(input("reroll?: " ))
-            print("rerolling")
             if question =="y":
+                print("rerolling")
                 player2.fillhand()
                 print ("you drew out: ", player2.hand, "\nRemaining to draw from bucket ", player2.bucket)
                 player2.handroll()
@@ -241,7 +226,7 @@ while player.totalbrains < 13 and player2.totalbrains < 13:
     player2.reset()
 
     time.sleep(2)
-    print ("\n\n\nEnd of turn BLAH, here are the scores:\nPlayer 1 has ", player.totalbrains, "\nand Player 2 has " , player2.totalbrains, "\n\n--------------------------------\n\n")
+    print ("\n\n\n---End of Round---\nHere are the scores:\nPlayer 1 has ", player.totalbrains, "\nand Player 2 has " , player2.totalbrains, "\n\n--------------------------------\n\n")
     time.sleep(3)
 
 player.reset()
