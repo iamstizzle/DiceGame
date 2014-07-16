@@ -182,6 +182,9 @@ while player.totalbrains < 13 and player2.totalbrains < 13 and player3.totalbrai
                 player.totalbrains += player.brains
                 player.reset()        
 
+    if player.shotguncount > 2:
+        print ("\nBoom! The undead don't unlive forever. You got blasted!\n")
+        time.sleep(1)
     player.reset()
     print ("brains in the brain bank ", player.totalbrains, "\n\n--------------------------------\n\n") 
     player.reset() #these resets are important to avoid comingling values for future turns.
@@ -222,6 +225,9 @@ while player.totalbrains < 13 and player2.totalbrains < 13 and player3.totalbrai
                     player2.totalbrains += player2.brains
                     player2.reset()        
 
+        if player2.shotguncount > 2:
+            print ("\nBoom! The undead don't unlive forever. You got blasted!\n")
+            time.sleep(1)
         player2.reset()
         print ("brains in the brain bank ", player2.totalbrains) 
         player2.reset()
@@ -267,8 +273,11 @@ while player.totalbrains < 13 and player2.totalbrains < 13 and player3.totalbrai
                 elif question =="n":
                     scorepoints = True
                     player3.totalbrains += player3.brains
-                    player3.reset()        
-
+                    player3.reset()
+        #print failure conditions
+        if player3.shotguncount > 2:
+            print ("\nBoom! The undead don't unlive forever. You got blasted!\n")
+            time.sleep(1)
         player3.reset()
         print ("brains in the brain bank ", player3.totalbrains)
 
@@ -308,16 +317,20 @@ while player.totalbrains < 13 and player2.totalbrains < 13 and player3.totalbrai
 ### try to add aI rules
                     if computerai.brains == 0:
                         question = str("y")
+                    elif player.totalbrains > 12 and computerai.totalbrains < 8 and computerai.brains < 7:
+                        question = str("y")
+                    elif player.totalbrains > 12 and computerai.totalbrains < 11 and computerai.brains < 4:
+                        question = str("y")
                     elif computerai.brains <7 and computerai.shotguncount == 0:
                         question = str("y")
                     elif computerai.brains <3 and computerai.shotguncount == 1:
-                        if d6() < 6:
+                        if randint(1,8) < 8:
                             ##adding some randomness to ai
                             question = str("y")
                         else:
                             question = str("n")
                     elif computerai.brains <5 and computerai.shotguncount <3:
-                        if d6() < 5:
+                        if d6() < 4:
                             ##adding some randomness to ai
                             question = str("y")
                         else:
@@ -326,10 +339,7 @@ while player.totalbrains < 13 and player2.totalbrains < 13 and player3.totalbrai
                         question = str("n")
                         
                             
-                        
-
-
-
+## end ai rules                        
                     
                     if question =="y":
                         print("rerolling")
@@ -346,7 +356,10 @@ while player.totalbrains < 13 and player2.totalbrains < 13 and player3.totalbrai
                         computerai.totalbrains += computerai.brains
                         computerai.reset()
                         time.sleep(1)
-
+            ## Print failure conditions            
+            if computerai.shotguncount > 2:
+                print ("\nBoom! The undead don't unlive forever. You got blasted!\n")
+                time.sleep(1)
             computerai.reset()
             print ("COMPUTER brains in the brain bank ", computerai.totalbrains, "\n\n\n")
 
@@ -360,21 +373,11 @@ while player.totalbrains < 13 and player2.totalbrains < 13 and player3.totalbrai
 ################ END AI TEST####################################
 
 
-
 player.reset()
 player2.reset()
 player3.reset()
 computerai.reset()
 
-
-
-
-
-
-
-
-
-print ("\n\n\nVICTORY!!!:\nPlayer 1 has ", player.totalbrains, "\nand Player 2 has " , player2.totalbrains)
 
 
 ############################ VICTORY CONDITIONS MET  #########################################3
@@ -408,11 +411,7 @@ else:
 
 
 
-
-
 ### I  dont yet account for ties. ### needs fixing  and support more than 2 players.
-          
-
 ######dietest########
 
 
