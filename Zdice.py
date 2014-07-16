@@ -149,7 +149,7 @@ player3 = dicerules("player3")
 ##development mode##
 computerai = dicerules("AI")
 
-playerarray = [player, player2, player3]
+playerarray = [player,computerai]
 
 
 while player.totalbrains < 13 and player2.totalbrains < 13 and player3.totalbrains < 13 and computerai.totalbrains < 13:
@@ -172,7 +172,40 @@ while player.totalbrains < 13 and player2.totalbrains < 13 and player3.totalbrai
         while each.shotguncount <3 and scorepoints == False:
             scorepoints = False
             if each.shotguncount < 3:
-                question = str(input("reroll?: " ))
+            ### AI section ##
+                if each.name == "AI":
+                    if each.brains ==0:
+                        question = str("y")
+                    elif player.totalbrains > 12 and computerai.totalbrains < 8 and computerai.brains < 7:
+                        question = str("y")
+                    elif player.totalbrains > 12 and computerai.totalbrains < 11 and computerai.brains < 4:
+                        question = str("y")
+                    elif computerai.brains <7 and computerai.shotguncount == 0:
+                        question = str("y")
+                        time.sleep(1)
+                    elif computerai.brains <3 and computerai.shotguncount == 1:
+                        if randint(1,8) < 8:
+                            ##adding some randomness to ai
+                            question = str("y")
+                            time.sleep(1)
+                        else:
+                            question = str("n")
+                    elif computerai.brains <5 and computerai.shotguncount <3:
+                        if d6() < 4:
+                            ##adding some randomness to ai
+                            question = str("y")
+                        else:
+                            question = str("n")
+                    else:
+                        question = str("n")
+                else:
+                    question = str(input("reroll?: " ))
+                    
+#### end AI
+
+
+            
+            
                 if question =="y":
                     print("rerolling")
                     each.fillhand()
@@ -205,188 +238,9 @@ while player.totalbrains < 13 and player2.totalbrains < 13 and player3.totalbrai
 
 ### For loop removal ###
 
-    """
-
-######start player 2################################################################
-    
-    if playercount >= 2:  ##adds multiplayer 2+
-        scorepoints = False   #need so you can enter the dice reroll while loop
-        print ("Player2 START:\nDrawing DIE ...er, dice... \n")
-        time.sleep(1)
-        player2.fillhand()
-        #print ("P2 you drew out: ", player2.hand, "\nRemaining to draw from bucket ", player2.bucket)
-                                                                                     
-
-        player2.handroll()
-        player2.checkroll()
-        print ("your roll was :", player2.rolled[0][0], player2.rolled[1][0], player2.rolled[2][0])
-        print ("player 2 roll totals:  Brains: ", player2.brains, "Shotgun: ", player2.shotguncount, "\n\n\n\n")
- 
-        while player2.shotguncount <3 and scorepoints == False:
-            scorepoints = False
-            if player2.shotguncount < 3:
-                question = str(input("reroll?: " ))
-                if question =="y":
-                    print("rerolling")
-                    player2.fillhand()
-                    print ("you drew out: ", player2.hand, "\nRemaining to draw from bucket ", player2.bucket)
-                    player2.handroll()
-                    player2.checkroll()
-                    print ("your roll was :", player2.rolled[0][0], player2.rolled[1][0], player2.rolled[2][0])
-                    print ("player 1 roll totals:  Brains: ", player2.brains, "Shotgun: ", player2.shotguncount, "\n\n\n\n")
-
-                elif question =="n":
-                    scorepoints = True
-                    player2.totalbrains += player2.brains
-                    player2.reset()        
-
-        if player2.shotguncount > 2:
-            print ("\nBoom! The undead don't unlive forever. You got blasted!\n")
-            time.sleep(1)
-        player2.reset()
-        print ("brains in the brain bank ", player2.totalbrains) 
-        player2.reset()
-
-        time.sleep(1)
-    #### Need to define at the end of each player value.
-        if playercount == 2:
-            print ("\n\n\n---End of Round---\nHere are the scores:\nPlayer 1 has ", player.totalbrains, "\nand Player 2 has " , player2.totalbrains, "\n--------------------------------\n\n")
-        time.sleep(3)
-
-### Add extra players:
-
-
-###PLAYER 3 ##########################################################################
-    if playercount > 2: ##adds multiplayer 3+
-        
-        scorepoints = False   #need so you can enter the dice reroll while loop
-        print ("Player 3 START:\nDrawing DIE ...er, dice... \n")
-        time.sleep(1)
-        player3.fillhand()
-        #print ("P2 you drew out: ", player2.hand, "\nRemaining to draw from bucket ", player2.bucket)
-                                                                                     
-
-        player3.handroll()
-        player3.checkroll()
-        print ("your roll was :", player3.rolled[0][0], player3.rolled[1][0], player3.rolled[2][0])
-        print ("player 2 roll totals:  Brains: ", player3.brains, "Shotgun: ", player3.shotguncount, "\n\n\n\n")
-
-            
-        while player3.shotguncount <3 and scorepoints == False:
-            scorepoints = False
-            if player3.shotguncount < 3:
-                question = str(input("reroll?: " ))
-                if question =="y":
-                    print("rerolling")
-                    player3.fillhand()
-                    print ("you drew out: ", player3.hand, "\nRemaining to draw from bucket ", player3.bucket)
-                    player3.handroll()
-                    player3.checkroll()
-                    print ("your roll was :", player3.rolled[0][0], player3.rolled[1][0], player3.rolled[2][0])
-                    print ("player 1 roll totals:  Brains: ", player3.brains, "Shotgun: ", player3.shotguncount, "\n\n\n\n")
-
-                elif question =="n":
-                    scorepoints = True
-                    player3.totalbrains += player3.brains
-                    player3.reset()
-        #print failure conditions
-        if player3.shotguncount > 2:
-            print ("\nBoom! The undead don't unlive forever. You got blasted!\n")
-            time.sleep(1)
-        player3.reset()
-        print ("brains in the brain bank ", player3.totalbrains)
-
-        if playercount == 3:
-            print ("\n\n\n---End of Round---\nHere are the scores:\nPlayer 1 has ", player.totalbrains, "\nand Player 2 has " , player2.totalbrains, "\n\n\n\nand Player 3 has " , player3.totalbrains, "\n---------------\n\n")
-
-        
-
-
-###ai demo###################################################3
-            ##################3333
-            ##################
 
 
 
-
-    if playercount == 1:
-            
-            scorepoints = False   #need so you can enter the dice reroll while loop
-            print ("AI PLAYER START:\nDrawing DIE ...er, dice... \n")
-            time.sleep(1)
-            computerai.fillhand()
-            #print ("COMPUTER you drew out: ", player2.hand, "\nRemaining to draw from bucket ", player2.bucket)
-                                                                                         
-
-            computerai.handroll()
-            computerai.checkroll()
-            print ("your roll was :", computerai.rolled[0][0], computerai.rolled[1][0], computerai.rolled[2][0])
-            print ("player 2 roll totals:  Brains: ", computerai.brains, "Shotgun: ", computerai.shotguncount, "\n\n\n\n")
-
-                
-            while computerai.shotguncount <3 and scorepoints == False:
-                scorepoints = False
-                if computerai.shotguncount < 3:
-
-
-### try to add aI rules
-                    if computerai.brains == 0:
-                        question = str("y")
-                    elif player.totalbrains > 12 and computerai.totalbrains < 8 and computerai.brains < 7:
-                        question = str("y")
-                    elif player.totalbrains > 12 and computerai.totalbrains < 11 and computerai.brains < 4:
-                        question = str("y")
-                    elif computerai.brains <7 and computerai.shotguncount == 0:
-                        question = str("y")
-                    elif computerai.brains <3 and computerai.shotguncount == 1:
-                        if randint(1,8) < 8:
-                            ##adding some randomness to ai
-                            question = str("y")
-                        else:
-                            question = str("n")
-                    elif computerai.brains <5 and computerai.shotguncount <3:
-                        if d6() < 4:
-                            ##adding some randomness to ai
-                            question = str("y")
-                        else:
-                            question = str("n")
-                    else:
-                        question = str("n")
-                        
-                            
-## end ai rules                        
-                    
-                    if question =="y":
-                        print("rerolling")
-                        computerai.fillhand()
-                        print ("you drew out: ", computerai.hand, "\nRemaining to draw from bucket ", computerai.bucket)
-                        computerai.handroll()
-                        computerai.checkroll()
-                        print ("your roll was :", computerai.rolled[0][0], computerai.rolled[1][0], computerai.rolled[2][0])
-                        print ("Computer roll totals:  Brains: ", computerai.brains, "Shotgun: ", computerai.shotguncount, "\n\n\n\n")
-                        time.sleep(1)
-
-                    elif question =="n":
-                        scorepoints = True
-                        computerai.totalbrains += computerai.brains
-                        computerai.reset()
-                        time.sleep(1)
-            ## Print failure conditions            
-            if computerai.shotguncount > 2:
-                print ("\nBoom! The undead don't unlive forever. You got blasted!\n")
-                time.sleep(1)
-            computerai.reset()
-            print ("COMPUTER brains in the brain bank ", computerai.totalbrains, "\n\n\n")
-
-            if playercount == 1:
-                print ("\n\n\n---End of Round---\nHere are the scores:\nPlayer 1 has ", player.totalbrains, "\nand Computer  has " , computerai.totalbrains, "\n--------------------------------\n\n")
-                time.sleep(2)
-
-
-
-
-################ END AI TEST####################################
-"""
 
     ### For loop end
 
@@ -400,7 +254,7 @@ computerai.reset()
 ############################ VICTORY CONDITIONS MET  #########################################3
 
 
-
+###messed up for computerai as player 2""
 if playercount == 1:
     print ("\n\n\nVICTORY!!!:\nPlayer 1 has ", player.totalbrains, "\nand the Computer has " , computerai.totalbrains)
     if player.totalbrains > computerai.totalbrains:
@@ -409,8 +263,8 @@ if playercount == 1:
         print ("Computer wins")
 
 elif playercount == 2:
-    print ("\n\n\nVICTORY!!!:\nPlayer 1 has ", player.totalbrains, "\nand Player 2 has " , player2.totalbrains)
-    if player.totalbrains > player2.totalbrains:
+    print ("\n\n\nVICTORY!!!:\nPlayer 1 has ", player.totalbrains, "\nand Player 2 has " , computerai.totalbrains)
+    if player.totalbrains > computerai.totalbrains:
         print("Player 1 wins!")
     else:
         print ("Computer wins")
