@@ -150,7 +150,7 @@ computerai = dicerules()
 
 
 
-while player.totalbrains < 13 and player2.totalbrains < 13 and computerai.totalbrains < 13:
+while player.totalbrains < 13 and player2.totalbrains < 13 and player3.totalbrains < 13 and computerai.totalbrains < 13:
     scorepoints = False
 
     ### PLAYER 1  ###
@@ -186,11 +186,12 @@ while player.totalbrains < 13 and player2.totalbrains < 13 and computerai.totalb
     print ("brains in the brain bank ", player.totalbrains, "\n\n--------------------------------\n\n") 
     player.reset() #these resets are important to avoid comingling values for future turns.
 
-    ### End player 1
+    ### End player 1###
     time.sleep(2)
 
-    ###start player 2
-    if playercount >= 2:  ##adds multiplayer
+######start player 2################################################################
+    
+    if playercount >= 2:  ##adds multiplayer 2+
         scorepoints = False   #need so you can enter the dice reroll while loop
         print ("Player2 START:\nDrawing DIE ...er, dice... \n")
         time.sleep(1)
@@ -225,7 +226,8 @@ while player.totalbrains < 13 and player2.totalbrains < 13 and computerai.totalb
         print ("brains in the brain bank ", player2.totalbrains) 
         player2.reset()
 
-        time.sleep(2)
+        time.sleep(1)
+    #### Need to define at the end of each player value.
         if playercount == 2:
             print ("\n\n\n---End of Round---\nHere are the scores:\nPlayer 1 has ", player.totalbrains, "\nand Player 2 has " , player2.totalbrains, "\n--------------------------------\n\n")
         time.sleep(3)
@@ -233,8 +235,8 @@ while player.totalbrains < 13 and player2.totalbrains < 13 and computerai.totalb
 ### Add extra players:
 
 
-    ###PLAYER 3 ###
-    if playercount > 2:
+###PLAYER 3 ##########################################################################
+    if playercount > 2: ##adds multiplayer 3+
         
         scorepoints = False   #need so you can enter the dice reroll while loop
         print ("Player 3 START:\nDrawing DIE ...er, dice... \n")
@@ -314,7 +316,7 @@ while player.totalbrains < 13 and player2.totalbrains < 13 and computerai.totalb
                             question = str("y")
                         else:
                             question = str("n")
-                    elif computerai.brains <6 and computerai.shotguncount <3:
+                    elif computerai.brains <5 and computerai.shotguncount <3:
                         if d6() < 5:
                             ##adding some randomness to ai
                             question = str("y")
@@ -337,14 +339,20 @@ while player.totalbrains < 13 and player2.totalbrains < 13 and computerai.totalb
                         computerai.checkroll()
                         print ("your roll was :", computerai.rolled[0][0], computerai.rolled[1][0], computerai.rolled[2][0])
                         print ("Computer roll totals:  Brains: ", computerai.brains, "Shotgun: ", computerai.shotguncount, "\n\n\n\n")
+                        time.sleep(1)
 
                     elif question =="n":
                         scorepoints = True
                         computerai.totalbrains += computerai.brains
-                        computerai.reset()        
+                        computerai.reset()
+                        time.sleep(1)
 
             computerai.reset()
             print ("COMPUTER brains in the brain bank ", computerai.totalbrains, "\n\n\n")
+
+            if playercount == 1:
+                print ("\n\n\n---End of Round---\nHere are the scores:\nPlayer 1 has ", player.totalbrains, "\nand Computer  has " , computerai.totalbrains, "\n--------------------------------\n\n")
+                time.sleep(2)
 
 
 
@@ -369,24 +377,38 @@ computerai.reset()
 print ("\n\n\nVICTORY!!!:\nPlayer 1 has ", player.totalbrains, "\nand Player 2 has " , player2.totalbrains)
 
 
+############################ VICTORY CONDITIONS MET  #########################################3
 
 
 
+if playercount == 1:
+    print ("\n\n\nVICTORY!!!:\nPlayer 1 has ", player.totalbrains, "\nand the Computer has " , computerai.totalbrains)
+    if player.totalbrains > computerai.totalbrains:
+        print("Player 1 wins!")
+    else:
+        print ("Computer wins")
 
+elif playercount == 2:
+    print ("\n\n\nVICTORY!!!:\nPlayer 1 has ", player.totalbrains, "\nand Player 2 has " , player2.totalbrains)
+    if player.totalbrains > player2.totalbrains:
+        print("Player 1 wins!")
+    else:
+        print ("Computer wins")
 
+elif playercount == 3:
+    print ("\n\n\nVICTORY!!!:\nPlayer 1 has ", player.totalbrains, "\nand Player 2 has " , player2.totalbrains, "\nand Player 3 has " , player3.totalbrains)
+    if player.totalbrains > player2.totalbrains and player.totalbrains > player3.totalbrains:
+        print("Player 1 wins!")
+    elif player.totalbrains < player2.totalbrains and player2.totalbrains > player3.totalbrains:
+        print ("Player 2 wins")
+    else: print ("Player 3 wins")
 
-
-
-
-
-
-
-
-
-if player.totalbrains > player2.totalbrains:
-    print("Player 1 wins!")
 else:
-    print ("player 2 wins")
+    print ("this shouldn't happen and I dont yet break ties. ties always go to player 3.")
+
+
+
+
 
 ### I  dont yet account for ties. ### needs fixing  and support more than 2 players.
           
@@ -400,6 +422,5 @@ print (".");
 time.sleep(1)
 print (".");
 time.sleep(1)
-print (".")
 
 
