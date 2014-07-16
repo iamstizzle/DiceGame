@@ -135,8 +135,8 @@ class dicerules(object):
 
 #----------------------------------------------------------------------
 
-
-
+playercount = int(input("--Zombie Dice--\n\nHow many players: " ))
+print ("you've selected ", playercount)
 
             ###############  PLAY START ################
 
@@ -144,10 +144,9 @@ class dicerules(object):
 
 player = dicerules()
 player2 = dicerules()
+player3 = dicerules()
 
 
-
-###setup for multiplayer loop checks..
 while player.totalbrains < 13 and player2.totalbrains < 13:
     scorepoints = False
 
@@ -221,25 +220,102 @@ while player.totalbrains < 13 and player2.totalbrains < 13:
 
     player2.reset()
     print ("brains in the brain bank ", player2.totalbrains) 
-    print ("blasted! turn over")
-
     player2.reset()
 
     time.sleep(2)
-    print ("\n\n\n---End of Round---\nHere are the scores:\nPlayer 1 has ", player.totalbrains, "\nand Player 2 has " , player2.totalbrains, "\n\n--------------------------------\n\n")
+    if playercount == 2:
+        print ("\n\n\n---End of Round---\nHere are the scores:\nPlayer 1 has ", player.totalbrains, "\nand Player 2 has " , player2.totalbrains, "\n--------------------------------\n\n")
     time.sleep(3)
+
+### Add extra players:
+
+
+    ###PLAYER 3 ###
+    if playercount > 2:
+        
+        scorepoints = False   #need so you can enter the dice reroll while loop
+        print ("Player 3 START:\nDrawing DIE ...er, dice... \n")
+        time.sleep(1)
+        player3.fillhand()
+        #print ("P2 you drew out: ", player2.hand, "\nRemaining to draw from bucket ", player2.bucket)
+                                                                                     
+
+        player3.handroll()
+        player3.checkroll()
+        print ("your roll was :", player3.rolled[0][0], player3.rolled[1][0], player3.rolled[2][0])
+        print ("player 2 roll totals:  Brains: ", player3.brains, "Shotgun: ", player3.shotguncount, "\n\n\n\n")
+
+            
+        while player3.shotguncount <3 and scorepoints == False:
+            scorepoints = False
+            if player3.shotguncount < 3:
+                question = str(input("reroll?: " ))
+                if question =="y":
+                    print("rerolling")
+                    player3.fillhand()
+                    print ("you drew out: ", player3.hand, "\nRemaining to draw from bucket ", player3.bucket)
+                    player3.handroll()
+                    player3.checkroll()
+                    print ("your roll was :", player3.rolled[0][0], player3.rolled[1][0], player3.rolled[2][0])
+                    print ("player 1 roll totals:  Brains: ", player3.brains, "Shotgun: ", player3.shotguncount, "\n\n\n\n")
+
+                elif question =="n":
+                    scorepoints = True
+                    player3.totalbrains += player3.brains
+                    player3.reset()        
+
+        player3.reset()
+        print ("brains in the brain bank ", player3.totalbrains)
+
+        if playercount == 3:
+            print ("\n\n\n---End of Round---\nHere are the scores:\nPlayer 1 has ", player.totalbrains, "\nand Player 2 has " , player2.totalbrains, "\n\n\n\nand Player 3 has " , player3.totalbrains, "\n---------------\n\n")
+
+        
+
+
+
+
+
+
+
+
+
 
 player.reset()
 player2.reset()
+player3.reset()
+
+
+
+
+
+
+
+
 
 print ("\n\n\nVICTORY!!!:\nPlayer 1 has ", player.totalbrains, "\nand Player 2 has " , player2.totalbrains)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 if player.totalbrains > player2.totalbrains:
     print("Player 1 wins!")
 else:
     print ("player 2 wins")
 
-### I  dont yet account for ties. ### needs fixing.
+### I  dont yet account for ties. ### needs fixing  and support more than 2 players.
           
 
 ######dietest########
