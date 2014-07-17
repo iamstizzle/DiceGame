@@ -178,36 +178,38 @@ while player1.totalbrains < 13 and player2.totalbrains < 13 and player3.totalbra
         while each.shotguncount <3 and scorepoints == False:
             scorepoints = False
             if each.shotguncount < 3:
-            ### AI section ###
-            ### rules determining rerolls for AI  and player type###
+                ### AI section ###
+                ### rules determining rerolls for AI  and player type###
                 if each.name == "AI":
                     if each.brains ==0:
                         question = str("y")
                     elif player1.totalbrains > 12 and (computerai.totalbrains + computerai.brains) < player1.totalbrains:
                         question = str("y")
-                    elif computerai.brains <7 and computerai.shotguncount == 0:
+                    elif player1.totalbrains < 13 and (computerai.totalbrains + computerai.brains) > 12:
+                        question = str("n") ## should stop if you have the win
+                    elif computerai.brains <6 and computerai.shotguncount == 0:
                         question = str("y")
                         time.sleep(1)
                     elif computerai.brains <3 and computerai.shotguncount == 1:
-                        if randint(1,8) < 8:
+                        if randint(1,10) < 10:
                             ##adding some randomness to ai
                             question = str("y")
-                            time.sleep(1)
+                            time.sleep(5)
                         else:
                             question = str("n")
                     elif computerai.brains <5 and computerai.shotguncount <3:
-                        if d6() < 4:
+                        if d6() < 5:
                             ##adding some randomness to ai
                             question = str("y")
                         else:
                             question = str("n")
                     else:
                         question = str("n")
-                ## else you are human input prompt.
+                        #### end AI   
+                ## else you are human input prompt ##
                 else:
                     question = str(input("reroll?: " ))
                     
-            #### end AI     
             
                 if question =="y":
                     print("rerolling")
@@ -216,7 +218,7 @@ while player1.totalbrains < 13 and player2.totalbrains < 13 and player3.totalbra
                     each.handroll()
                     each.checkroll()
                     print ("your roll was :", each.rolled[0][0], each.rolled[1][0], each.rolled[2][0])
-                    print ("player ", each.name, " roll totals:  Brains: ", each.brains, "Shotgun: ", each.shotguncount, "\n\n\n\n")
+                    print (each.name, " roll totals:\n--- Brains: ", each.brains, "\n--- Shotgun: ", each.shotguncount, "\n\n\n")
                     time.sleep(1)
                 elif question =="n":
                     scorepoints = True
@@ -235,7 +237,8 @@ while player1.totalbrains < 13 and player2.totalbrains < 13 and player3.totalbra
     print ("Current game standings are:")
     time.sleep(1)
     for each in playerarray:
-        print ("\nplayer: ", each.name, " brains in the brain bank ", each.totalbrains, "\n--------------\n")
+        print ("\n", each.name, " brains in the brain bank ", each.totalbrains, "\n------------\n")
+        time.sleep(2)
 
 
 
@@ -268,4 +271,4 @@ time.sleep(1)
 print (".");
 time.sleep(1)
 
-### Cleanbranch multiplayer line commit ####
+### AI_tweakbranch ####
