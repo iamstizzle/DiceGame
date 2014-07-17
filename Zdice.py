@@ -1,15 +1,13 @@
 
 ################################### SETUP ###########################################################
+
 from random import randint
 import time
 
-
 def d6():
     return randint(1,6)
-#--------------------------
 
-
-##### DEFINE Dictionary of Dice values ###
+### DICE TABLES ####
 
 dieval = {
     "civi1" : ["shotgun","reroll","reroll","brains","brains","brains"],
@@ -27,13 +25,9 @@ dieval = {
 
     }
 
-#Test Dice rolls for dict values
-#####------------------------------------------------------------------
+##----------------
 
-
-#####Define Draw bucket#####
-##!!!! note array == []    dictionary == {}##
-
+### PLAYER SETUP ###
 
 class dicerules(object):
     def __init__(self, title):
@@ -128,16 +122,18 @@ class dicerules(object):
                 self.gotshot(2)
                 self.useddice.append(each[1])
                 self.hand.remove(each[1])
-               
-        
+
 #----------------------------------------------------------------------------------
             
 ################################### SETUP END ###########################################################
 
 #----------------------------------------------------------------------
-
 playercount = int(input("--Zombie Dice--\n\nHow many players: " ))
 print ("you've selected ", playercount)
+
+endscore = int(input("\nHow many Brain do you want to play to?: "))
+print ("you've selected ", endscore)
+
 
             ###############  PLAY START ################
 
@@ -159,8 +155,8 @@ elif playercount ==4:
     playerarray = [player1,player2, player3, player4]
     
 
-
-while player1.totalbrains < 13 and player2.totalbrains < 13 and player3.totalbrains < 13 and computerai.totalbrains < 13 and player4.totalbrains < 13:
+### Mechanics of each turn ###
+while player1.totalbrains < endscore and player2.totalbrains < endscore and player3.totalbrains < endscore and computerai.totalbrains < endscore and player4.totalbrains < endscore:
 
     for each in playerarray:
         
@@ -183,9 +179,9 @@ while player1.totalbrains < 13 and player2.totalbrains < 13 and player3.totalbra
                 if each.name == "AI":
                     if each.brains ==0:
                         question = str("y")
-                    elif player1.totalbrains > 12 and (computerai.totalbrains + computerai.brains) < player1.totalbrains:
+                    elif player1.totalbrains >= endscore and (computerai.totalbrains + computerai.brains) < player1.totalbrains:
                         question = str("y")
-                    elif player1.totalbrains < 13 and (computerai.totalbrains + computerai.brains) > 12:
+                    elif player1.totalbrains < endscore and (computerai.totalbrains + computerai.brains) >= endscore:
                         question = str("n") ## should stop if you have the win
                     elif computerai.brains <6 and computerai.shotguncount == 0:
                         question = str("y")
@@ -214,10 +210,10 @@ while player1.totalbrains < 13 and player2.totalbrains < 13 and player3.totalbra
                 if question =="y":
                     print("rerolling")
                     each.fillhand()
-                    print ("you drew out: ", each.hand, "\nRemaining to draw from bucket ", each.bucket)
+                    #print ("you drew out: ", each.hand, "\nRemaining to draw from bucket ", each.bucket)
                     each.handroll()
                     each.checkroll()
-                    print ("your roll was :", each.rolled[0][0], each.rolled[1][0], each.rolled[2][0])
+                    #print ("your roll was :", each.rolled[0][0], each.rolled[1][0], each.rolled[2][0])
                     print (each.name, " roll totals:\n--- Brains: ", each.brains, "\n--- Shotgun: ", each.shotguncount, "\n\n\n")
                     time.sleep(1)
                 elif question =="n":
